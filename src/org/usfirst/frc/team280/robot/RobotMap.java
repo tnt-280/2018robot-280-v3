@@ -29,11 +29,11 @@ public class RobotMap {
 	public static final int RSTalon = 11; // Slave
 	public static final int LMTalon = 3;
 	public static final int LSTalon = 5;
-	public static final int ArmTalon = 4; // Talon CAN id that controls the arm
+	public static final int ArmTalon = 4;
 	public static final int WristTalon = 8;
 
-	//lift arm limit switches
-	public static final int DIO_arm_switch_high = 3; // DIO pin for arm control reed switch
+	//lift arm reed switches
+	public static final int DIO_arm_switch_high = 3;
 	public static final int DIO_arm_switch_low = 4;
 	
 	//joystick button function assignment for lift arm

@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
 	WPI_TalonSRX WristMotor = new WPI_TalonSRX(RobotMap.WristTalon);
 	boolean RS_button_5, RS_button_3, arm_seek_down, arm_seek_up, arm_seek_mid, WristUp, WristDown;
-	static DigitalInput dInput2, dInput1, dInput0;
+	static DigitalInput dInput2, dInput1;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -188,9 +188,6 @@ public class Robot extends TimedRobot {
 		//update the accounting of the limit switches
 		boolean arm_high_switch_set = armSwitchHi();
 		boolean arm_low_switch_set = armSwitchLow();
-
-		
-		
 		
 		//update the pressed/un-pressed state of the arm movement buttons
 		//This entire section likely needs to be fixed with the better button status function
@@ -224,7 +221,7 @@ public class Robot extends TimedRobot {
 		boolean RS_button_arm_up = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_up);
 
 		//then act based on the button state to turn on the motor
-		//
+
 		if((RS_button_arm_up || (seekPosition == 1) || (seekPosition == 0)) && !arm_high_switch_set)
 		{
 			LiftArmMotor.set(0.85);
@@ -271,58 +268,5 @@ public class Robot extends TimedRobot {
 			LiftArmMotor.set(0);
 		}
 		
-	} }
-	
-	
-	
-	
-	/*
-	private void rotaryEncoderTest()
-	{
-		//set encoding type for The number of edges for the counterbase to increment or decrement on
-		Encoder encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		
-		//set initial properties
-		encoder.setMaxPeriod(.1);
-		encoder.setMinRate(10);
-		encoder.setDistancePerPulse(5);
-		encoder.setReverseDirection(true);
-		encoder.setSamplesToAverage(7);
-		
-		//read values
-		int count = encoder.get();
-		double rawdistance = encoder.getRaw();
-		double distance = encoder.getDistance();
-		double rate = encoder.getRate();
-		boolean direction = encoder.getDirection();
-		boolean stopped = encoder.getStopped();
-
-	}
-	*/
-	
-	
-	
-	/*public class EncoderDistanceTest extends PIDSubsystem { // This system extends PIDSubsystem
-
-
-		public EncoderDistanceTest() {
-			super("Dist", 2.0, 0.0, 0.0); // The constructor passes a name for the subsystem and the P, I and D constants that are used when computing the motor output
-			setAbsoluteTolerance(0.05);
-			getPIDController().setContinuous(false);
 		}
-		
-	    public void initDefaultCommand() {
-	    }
-
-	    protected double returnPIDInput() {
-	    //	return pot.getAverageVoltage(); // returns the sensor value that is providing the feedback for the system
-			return 0;
-	    }
-
-	    protected void usePIDOutput(double output) {
-	    	LiftArmMotor.pidWrite(output); // this is where the computed output value from the PIDController is applied to the motor
-	    }
 	}
-	
-}
-*/
