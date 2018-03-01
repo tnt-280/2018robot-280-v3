@@ -44,7 +44,16 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
+	
+
+	
 	public Joystick armJoystick = new Joystick(2);
 	public Joystick rightStick = new Joystick(1);
 	public Joystick leftStick = new Joystick(0);
+	public Button WristUp =  new JoystickButton(armJoystick,8);
+	public Button WristDown = new JoystickButton(armJoystick,9);
+	
+	
+
+	
 }

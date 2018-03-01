@@ -25,23 +25,28 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	// TalonSRX CAN Assignments
-	public static final int RMTalon = 4; // Master
-	public static final int RS1Talon = 5; // Slave 1
-	public static final int RS2Talon = 6; // Slave 2
-	public static final int LMTalon = 1;
-	public static final int LS1Talon = 2;
-	public static final int LS2Talon = 3;
-	public static final int LiftTalon = 7; // Talon CAN id that controls the lift arm
+	public static final int RMTalon = 9; // Master
+	public static final int RSTalon = 11; // Slave
+	public static final int LMTalon = 3;
+	public static final int LSTalon = 5;
+	public static final int ArmTalon = 4; // Talon CAN id that controls the arm
+	public static final int WristTalon = 8;
 
 	//lift arm limit switches
-	public static final int DIO_arm_switch_high = 1; // DIO pin for arm control reed switch
-	public static final int DIO_arm_switch_mid = 0;
-	public static final int DIO_arm_switch_low = 2;
+	public static final int DIO_arm_switch_high = 3; // DIO pin for arm control reed switch
+	public static final int DIO_arm_switch_low = 4;
 	
 	//joystick button function assignment for lift arm
-	public static final int button_seek_up = 6;
+	public static final int button_seek_up = 1;
 	public static final int button_seek_mid = 2;
-	public static final int button_seek_down = 4;
-	public static final int button_move_up = 5;
-	public static final int button_move_down = 3;
+	public static final int button_seek_down = 3;
+	public static final int button_wrist_up = 8;
+	public static final int button_wrist_down = 9;
+	
+	//joystick button functions for grip and wrist 
+	public static final int button_grip_open = 4;
+	public static final int button_grip_close = 7;
+	public static final int button_grip_in = 5; 
+	public static final int button_grip_out = 6;
+	
 }

@@ -19,7 +19,7 @@ import com.ctre.CANTalon;
 public class DriveTrainSubsystem extends Subsystem {
 	
 	//create variables which contain the Talon SRX CAN controller references
-	WPI_TalonSRX LMMotor, RMMotor, LS1Motor, RS1Motor, LS2Motor, RS2Motor;
+	WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor;
 	//and a drivetrain reference
 	DifferentialDrive drive;
 	
@@ -64,15 +64,12 @@ public class DriveTrainSubsystem extends Subsystem {
 		
 		LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
 		RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
-		LS1Motor = new WPI_TalonSRX(RobotMap.LS1Talon);
-		RS1Motor = new WPI_TalonSRX(RobotMap.RS1Talon);		
-
+		LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
+		RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
 		
 		// Set slave motors to follow master
-		RS1Motor.follow(RMMotor);
-		RS2Motor.follow(RMMotor);
-		LS1Motor.follow(LMMotor);
-		LS2Motor.follow(LMMotor);
+		RSMotor.follow(RMMotor);
+		LSMotor.follow(LMMotor);
 		
 		drive = new DifferentialDrive(LMMotor, RMMotor);
 		
@@ -198,7 +195,7 @@ public class DriveTrainSubsystem extends Subsystem {
 		//x is left joystick, y is right joystick
 		
 		//read in the magnetic encoder speed for the drivetrain motor
-		int speedR = -1 * RMMotor.getSelectedSensorVelocity(0);
+		int speedR = RMMotor.getSelectedSensorVelocity(0);
 		int speedL = LMMotor.getSelectedSensorVelocity(0);
 
 		//add new values to the queue
