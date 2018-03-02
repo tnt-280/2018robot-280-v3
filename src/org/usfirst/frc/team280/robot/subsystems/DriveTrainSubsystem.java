@@ -19,7 +19,7 @@ import com.ctre.CANTalon;
 public class DriveTrainSubsystem extends Subsystem {
 	
 	//create variables which contain the Talon SRX CAN controller references
-	WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor;
+	// WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor;
 	//and a drivetrain reference
 	DifferentialDrive drive;
 
@@ -30,10 +30,10 @@ public class DriveTrainSubsystem extends Subsystem {
 	{
 		
 		//Initialize motors
-		LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
-		RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
-		LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
-		RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
+		WPI_TalonSRX LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
+		WPI_TalonSRX RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
+		WPI_TalonSRX LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
+		WPI_TalonSRX RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
 		
 		// Set slave motors to follow master
 		RSMotor.follow(RMMotor);

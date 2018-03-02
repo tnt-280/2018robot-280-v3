@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team280.robot.subsystems.Wrist;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
 	//variables for lift arm control
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
 	WPI_TalonSRX WristMotor = new WPI_TalonSRX(RobotMap.WristTalon);
+	public static Wrist wrist = new Wrist();
 	boolean RS_button_5, RS_button_3, arm_seek_down, arm_seek_up, arm_seek_mid, WristUp, WristDown;
 	static DigitalInput dInput2, dInput1;
 
