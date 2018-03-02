@@ -25,7 +25,8 @@ public class DriveTrainCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.DriveTrainSub.tankDrive(-1*Robot.m_oi.leftStick.getX(), Robot.m_oi.rightStick.getX());
+    	Robot.DriveTrainSub.tankDrive(-1*Robot.m_oi.leftStick.getX(), Robot.m_oi.rightStick.getX()); // -1*left corrects 
+    																							   // inverted joystick Splacement
     }
 
     // Make this return true when this Command no longer needs to run execute()
