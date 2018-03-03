@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 /**
  *
  */
-public class DriveTrainSubsystem extends Subsystem {
+public class Drivetrain extends Subsystem {
 	
 	//create variables which contain the Talon SRX CAN controller references
 	WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor, LS1Motor, RS1Motor;
@@ -59,7 +59,7 @@ public class DriveTrainSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	public DriveTrainSubsystem() 
+	public Drivetrain() 
 	{
 
 		LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
