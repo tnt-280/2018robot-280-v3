@@ -8,6 +8,7 @@
 package org.usfirst.frc.team280.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,7 +21,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import org.usfirst.frc.team280.robot.RobotMap;
-import org.usfirst.frc.team280.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team280.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -45,8 +46,19 @@ public class Robot extends TimedRobot {
 	//variables for lift arm control
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
 	WPI_TalonSRX WristMotor = new WPI_TalonSRX(RobotMap.WristTalon);
+	public static Wrist wrist = new Wrist();
+	public static Grip grip = new Grip();
+	public static Arm arm = new Arm();
+	public static GripWheel gripWheel = new GripWheel();
 	boolean RS_button_5, RS_button_3, arm_seek_down, arm_seek_up, arm_seek_mid, WristUp, WristDown;
 	static DigitalInput dInput2, dInput1;
+	Timer timer;
+	
+	WPI_TalonSRX LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
+	WPI_TalonSRX RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
+	WPI_TalonSRX LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
+	WPI_TalonSRX RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -121,11 +133,28 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.start();
 		}
 		
+		timer = new Timer();
+		timer.start();
+		
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); // Was put in by example, dont change
+		
+		if (timer.get() <1.5){
+			LMMotor.set(-0.5);
+			RMMotor.set(0.5);
+			LSMotor.set(-0.5);
+			RSMotor.set(0.5);
+		}
+		
+		if (timer.get() >=1.5) {
+			LMMotor.set(0);
+			RMMotor.set(0);
+			LSMotor.set(0);
+			RSMotor.set(0);
+		}
 	}
 
 	@Override
@@ -154,7 +183,7 @@ public class Robot extends TimedRobot {
 		update_arm_position();//update the arm position based on its state variables and joystick buttons
 	}
 	
-
+	
 	public static boolean armSwitchHi() {
 		//DriverStation.reportError("Arm reed switch high:" + !dInput2.get(), false);
 		return !dInput1.get();
@@ -187,6 +216,8 @@ public class Robot extends TimedRobot {
 		//control the motors that run the lift arm:
 		//update the accounting of the limit switches
 		boolean arm_high_switch_set = armSwitchHi();
+		
+		
 		boolean arm_low_switch_set = armSwitchLow();
 		
 		//update the pressed/un-pressed state of the arm movement buttons

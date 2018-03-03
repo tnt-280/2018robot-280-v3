@@ -29,8 +29,12 @@ public class RobotMap {
 	public static final int RSTalon = 11; // Slave
 	public static final int LMTalon = 3;
 	public static final int LSTalon = 5;
-	public static final int ArmTalon = 4;
+	public static final int RS1Talon = 10; // Additional drive CIMs
+	public static final int LS1Talon = 4;
+	public static final int ArmTalon = 2; // Set to 4 before adding thirds on each drive side
 	public static final int WristTalon = 8;
+	public static final int GripWheelTalon = 1;
+	public static final int GripTalon = 7;
 
 	//lift arm reed switches
 	public static final int DIO_arm_switch_high = 3;
@@ -48,5 +52,7 @@ public class RobotMap {
 	public static final int button_grip_close = 7;
 	public static final int button_grip_in = 5; 
 	public static final int button_grip_out = 6;
+	
+	public static final int wrist_encoder_port = 0;
 	
 }

@@ -8,10 +8,10 @@ import org.usfirst.frc.team280.robot.commands.DriveTrainCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import com.ctre.CANTalon;
 
 /**
  *
@@ -19,9 +19,9 @@ import com.ctre.CANTalon;
 public class DriveTrainSubsystem extends Subsystem {
 	
 	//create variables which contain the Talon SRX CAN controller references
-	WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor;
+	WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor, LS1Motor, RS1Motor;
 	//and a drivetrain reference
-	DifferentialDrive drive;
+	DifferentialDrive drive, driveSlave, driveSlave1;
 	
 	//we'll be using magnetic encoders to compensate for motor drift
 	//and we will want to average the values over time to smooth out the signal
@@ -61,23 +61,29 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public DriveTrainSubsystem() 
 	{
-		
+
 		LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
 		RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
 		LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
 		RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
+		LS1Motor = new WPI_TalonSRX(RobotMap.LS1Talon);
+		RS1Motor = new WPI_TalonSRX(RobotMap.RS1Talon);
 		
 		// Set slave motors to follow master
-		RSMotor.follow(RMMotor);
-		LSMotor.follow(LMMotor);
-		
+		//RSMotor.set(ControlMode.Follower, RobotMap.RMTalon);
+		//LSMotor.set(ControlMode.Follower, RobotMap.LMTalon);
+
 		drive = new DifferentialDrive(LMMotor, RMMotor);
+		driveSlave = new DifferentialDrive(LSMotor, RSMotor);
+		driveSlave1 = new DifferentialDrive(LS1Motor, RS1Motor);
 		
 	}
 	
 	public void tankDrive(double x, double y) {
 		//command the motor based on the adjusted joystick values
 		drive.tankDrive(x,y);
+		driveSlave.tankDrive(x, y);
+		driveSlave1.tankDrive(x, y);
 	}
 	
     public void initDefaultCommand() {
