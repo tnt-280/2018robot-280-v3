@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveTrainCommand extends Command {
 
 
-	int leftSpeed = 1;
-	int rightSpeed = 1;
+	// int leftSpeed = 1;
+	// int rightSpeed = 1;
 	
     public DriveTrainCommand() {
         // Use requires() here to declare subsystem dependencies
