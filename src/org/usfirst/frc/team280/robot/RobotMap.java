@@ -53,6 +53,7 @@ public class RobotMap {
 	public static final int button_grip_in = 5; 
 	public static final int button_grip_out = 6;
 	
-	public static final int wrist_encoder_port = 0;
+	public static final int wrist_encoder_port_a = 5;
+	public static final int wrist_encoder_port_b = 6;
 	
 }
