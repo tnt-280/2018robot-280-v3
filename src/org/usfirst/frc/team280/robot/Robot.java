@@ -17,16 +17,12 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,7 +33,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  */
 
 public class Robot extends TimedRobot {
-	public static final DriveTrainSubsystem DriveTrainSub = new DriveTrainSubsystem();
+	public static final Drivetrain DriveTrainSub = new Drivetrain();
 	public static OI m_oi;
 	
 	Command m_autonomousCommand;

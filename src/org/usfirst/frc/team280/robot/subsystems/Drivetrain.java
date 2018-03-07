@@ -5,11 +5,8 @@ import java.util.LinkedList;
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.commands.DriveTrainCommand;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 

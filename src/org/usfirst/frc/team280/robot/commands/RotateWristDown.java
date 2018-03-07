@@ -7,6 +7,7 @@ public class RotateWristDown extends Command {
 
 	@Override
 	protected void initialize() {
+		Robot.wrist.getPIDController().disable();
 		Robot.wrist.rotate(0.85);
 	}
 	
@@ -20,5 +21,7 @@ public class RotateWristDown extends Command {
 	@Override
 	protected void end() {
 		Robot.wrist.rotate(0);
+		Robot.wrist.getPIDController().setSetpoint(Robot.wrist.getEncoderValue());
+		Robot.wrist.getPIDController().enable();
 	}
 }
