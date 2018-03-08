@@ -7,6 +7,8 @@ public class RotateWristUp extends Command {
 
 	@Override
 	protected void initialize() {
+		//added to test motor 
+		Robot.wrist.getPIDController().disable();
 		Robot.wrist.rotate(-0.85);
 	}
 	
@@ -20,5 +22,7 @@ public class RotateWristUp extends Command {
 	@Override
 	protected void end() {
 		Robot.wrist.rotate(0);
+		Robot.wrist.getPIDController().setSetpoint(Robot.wrist.getEncoderValue());
+		Robot.wrist.getPIDController().enable();
 	}
 }
