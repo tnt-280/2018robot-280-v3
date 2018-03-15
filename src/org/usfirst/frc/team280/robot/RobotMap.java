@@ -39,6 +39,7 @@ public class RobotMap {
 	//lift arm reed switches
 	public static final int DIO_arm_switch_high = 3;
 	public static final int DIO_arm_switch_low = 4;
+	public static final int DIO_arm_switch_mid = 5;
 	
 	//joystick button function assignment for lift arm
 	public static final int button_seek_up = 1;
