@@ -20,16 +20,12 @@ public class Grip extends Subsystem {
 		
 	}
 	
-	public void move(double speed) {
+	public void move(double speed, int status) {
 
 		DriverStation.reportError("Opening Limit Switch = " + limitOpen.get(), false);
 		DriverStation.reportError("Closing Limit Switch = " + limitClose.get(), false);
 		
-		if (limitOpen.get() && opening)
-		{
-			Motor.set(0);
-		}
-		if (limitClose.get() && closing)
+		if ((limitOpen.get() && status == 2) || (limitClose.get() && status == 1))
 		{
 			Motor.set(0);
 		}

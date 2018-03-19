@@ -4,10 +4,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team280.robot.*;
 
 public class GripClose extends Command {
+	
+	public int status = 0; // Status 1 = Closing, 2 = Opening, 0 = Stopped
 
 	@Override
 	protected void initialize() {
-		Robot.grip.move(0.75);
+		status = 1;
+		Robot.grip.move(0.75, status);
 	}
 	
 	
@@ -19,6 +22,7 @@ public class GripClose extends Command {
 
 	@Override
 	protected void end() {
-		Robot.grip.move(0);
+		status = 0;
+		Robot.grip.move(0, status);
 	}
 }
