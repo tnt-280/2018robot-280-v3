@@ -8,6 +8,7 @@ public class GripOpen extends Command {
 	@Override
 	protected void initialize() {
 		Robot.grip.move(-0.75);
+		
 	}
 	
 	

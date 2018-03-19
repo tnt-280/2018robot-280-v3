@@ -337,7 +337,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	}
 	
 	public static boolean armSwitchMid() {
-		//DriverStation.reportError("Arm reed switch mid:" + !dInput0.get(), false);
+		DriverStation.reportError("Arm reed switch mid:" + !dInput0.get(), false);
 		return !dInput0.get();
 	}
 	
@@ -395,12 +395,13 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		boolean RS_button_arm_up = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_up);
 		boolean RS_button_arm_mid = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_mid);
 
-		//then act based on the button state to turn on the motor
+		//then act based on the button state to turn on the motor....0
+		
 		
 		
 		if((RS_button_5 || RS_button_arm_up || RS_button_arm_mid || (seekPosition == 1) || (seekPosition == 0)) && !arm_high_switch_set)
 		{
-			LiftArmMotor.set(0.85);
+			LiftArmMotor.set(0.85); // Default Competition Value: 0.85
 			if(RS_button_arm_up || (seekPosition == 1))
 			{
 				arm_seek_up = true;
@@ -413,10 +414,14 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 		if((RS_button_3 || RS_button_arm_down  || (seekPosition == -1)) && !arm_low_switch_set)
 		{
-			LiftArmMotor.set(-0.65);
+			LiftArmMotor.set(-0.65); // Default Competition Value: -0.65
 			if(RS_button_arm_down || (seekPosition == -1))
 			{
 				arm_seek_down = true;
+			}
+			if(RS_button_arm_mid || (seekPosition == 0)) 
+			{
+				arm_seek_mid = true;
 			}
 		}
 
@@ -435,11 +440,13 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 				arm_seek_mid = false;
 			}
 		}
+		
 		if(arm_mid_switch_set && arm_seek_mid)
 		{
 			LiftArmMotor.set(0);
 			arm_seek_mid = false;
 		}
+		
 		if(arm_low_switch_set && (RS_button_3 || arm_seek_down))
 		{
 			//if the 'lower arm' button is pressed and we're at the lower limit switch
@@ -450,6 +457,8 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 				arm_seek_down = false;
 			}
 		}
+		
+		
 		if(!RS_button_3 && !RS_button_5 && !arm_seek_down && !arm_seek_up && !arm_seek_mid)
 		{
 			//if neither arm movement button is pressed, turn off the motor

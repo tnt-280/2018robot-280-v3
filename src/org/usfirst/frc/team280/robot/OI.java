@@ -54,8 +54,9 @@ public class OI {
 	public Button WristUp =  new JoystickButton(armJoystick,8);
 	public Button WristDown = new JoystickButton(armJoystick,9);
 	
-	public Button GripOpen = new JoystickButton(armJoystick,4);
-	public Button GripClose = new JoystickButton(armJoystick,7);
+	//switched buttons 7 & 4
+	public Button GripOpen = new JoystickButton(armJoystick,7);
+	public Button GripClose = new JoystickButton(armJoystick,4);
 	public Button GripIn = new JoystickButton(armJoystick,5);
 	public Button GripOut = new JoystickButton(armJoystick,6);
 	

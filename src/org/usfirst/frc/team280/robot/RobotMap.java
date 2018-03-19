@@ -41,6 +41,10 @@ public class RobotMap {
 	public static final int DIO_arm_switch_low = 4;
 	public static final int DIO_arm_switch_mid = 5;
 	
+	// Wrist Limit Switches
+	public static final int wristOpenLimit = 2;
+	public static final int wristCloseLimit = 1;
+	
 	//joystick button function assignment for lift arm
 	public static final int button_seek_up = 1;
 	public static final int button_seek_mid = 2;
@@ -54,7 +58,7 @@ public class RobotMap {
 	public static final int button_grip_in = 5; 
 	public static final int button_grip_out = 6;
 	
-	public static final int wrist_encoder_port_a = 5;
-	public static final int wrist_encoder_port_b = 6;
+	public static final int wrist_encoder_port_a = 6;
+	public static final int wrist_encoder_port_b = 7;
 	
 }
