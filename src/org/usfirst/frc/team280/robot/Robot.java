@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SerialPort;
 
 import org.usfirst.frc.team280.robot.RobotMap;
+import org.usfirst.frc.team280.robot.commands.RotateWristEncoder;
 import org.usfirst.frc.team280.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
 
 	Command m_autonomousCommand;
+	Command autoCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	//variables for lift arm control
@@ -120,7 +122,9 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		// m_autonomousCommand = m_chooser.getSelected();
+		
+		autoCommand = new RotateWristEncoder();
 
 		/* // Prototype Autonomous Selection Code
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -140,7 +144,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
-		// Valid GameData is as follows: LLL, RRR, LRL, RLR
+		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR
 		if(gameData.length() > 0) {
 			if(gameData.charAt(1) == 'L') {
 				auto = "Left";
@@ -178,6 +182,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 				RSMotor.set(0);
 			}
 		} else if (auto == "Test Encoder") {
+			
 		} else { 
 			DriverStation.reportError("Autonomous selection error. Other behaviors not currently implemented.", false); // TODO implement other autonomous behaviors
 		}
@@ -200,145 +205,11 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		arm_seek_down = false;
 		arm_seek_up = false;
 		arm_seek_mid = false;
+		
+		Wrist.encZero();
+		Wrist.Motor.set(0);
 
 	}
-
-
-	/*** THIS SECTION COMMENTED OUT TO TEST OLD ARM CODE FOR MID SWITCH SET
-
-
-
-
-	@Override
-	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		//put code here that will run regularly during teleop mode
-
-		update_arm_position();//update the arm position based on its state variables and joystick buttons
-	}
-
-
-	public static boolean armSwitchHi() {
-		//DriverStation.reportError("Arm reed switch high:" + !dInput2.get(), false);
-		return !dInput1.get();
-	}
-
-	public static boolean armSwitchLow() {
-		//DriverStation.reportError("Arm reed switch low:" + !dInput1.get(), false);
-		return !dInput2.get();
-	}
-
-
-	// public static boolean armSwitchMid() {
-	// 	//DriverStation.reportError("Arm reed switch mid:" + !dInput0.get(), false);
-	// 	return !dInput0.get();
-	// }
-
-	//note: I made this into a subfunction so that it can be used in autonomous or teleoperation modes
-	public void update_arm_position()
-	{
-		//update the arm position without issuing a command apart from joystick behaviors
-		update_arm_position(2);//the command 2 does not denote a specific action
-	}
-
-	public void update_arm_position(int seekPosition)
-	{
-		//update the position of the lift arm based on joystick or command values
-		//seekPosition will be -1, 0 or 1 to command bottom, mid or top position seek
-
-		//control the motors that run the lift arm:
-		//update the accounting of the limit switches
-		boolean arm_high_switch_set = armSwitchHi();
-
-
-		boolean arm_low_switch_set = armSwitchLow();
-
-		//update the pressed/un-pressed state of the arm movement buttons
-		//This entire section likely needs to be fixed with the better button status function
-
-		if(!RS_button_5 && Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_wrist_up))
-		{
-			//if the state is released and the button has been pressed, change the state to pressed
-			RS_button_5 = true;
-		}
-		else if(RS_button_5 && Robot.m_oi.armJoystick.getRawButtonReleased(RobotMap.button_wrist_up))
-		{
-			//if the state is pressed, and the button has been released, change the state to released
-			RS_button_5 = false;
-		}
-
-		if(!RS_button_3 && Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_wrist_down))
-		{
-			//if the state is released and the button has been pressed, change the state to pressed
-			RS_button_3 = true;
-		}
-		else if(RS_button_3 && Robot.m_oi.armJoystick.getRawButtonReleased(RobotMap.button_wrist_down))
-		{
-			//if the state is pressed, and the button has been released, change the state to released
-			RS_button_3 = false;
-		}
-		//DriverStation.reportError("button 5: " + RS_button_5, false);//troubleshoot our button state variable
-		//DriverStation.reportError("button 3: " + RS_button_3, false);
-
-		//also use three buttons to seek the position of the arm based on the reed switches
-		boolean RS_button_arm_down = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_down);
-		boolean RS_button_arm_up = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_up);
-
-		//then act based on the button state to turn on the motor
-
-		if((RS_button_arm_up || (seekPosition == 1) || (seekPosition == 0)) && !arm_high_switch_set)
-		{
-			LiftArmMotor.set(0.85);
-			if(RS_button_arm_up || (seekPosition == 1))
-			{
-				arm_seek_up = true;
-			}
-		}
-
-		if((RS_button_arm_down  || (seekPosition == -1)) && !arm_low_switch_set)
-		{
-			LiftArmMotor.set(-.65);
-			if(RS_button_arm_down || (seekPosition == -1))
-			{
-				arm_seek_down = true;
-			}
-		}
-
-		//then act based on the state variables and switches to turn off the motors
-		if(arm_high_switch_set && arm_seek_up)
-		{
-			//if the 'raise arm' button is pressed and we're at the upper limit switch
-			//turn off the motor
-			LiftArmMotor.set(0);
-			if(arm_seek_up)
-			{
-				arm_seek_up = false;
-			}
-		}
-		if(arm_low_switch_set && arm_seek_down)
-		{
-			//if the 'lower arm' button is pressed and we're at the lower limit switch
-			//turn off the motor
-			LiftArmMotor.set(0);
-			if(arm_seek_down)
-			{
-				arm_seek_down = false;
-			}
-		}
-		if(!arm_seek_down && !arm_seek_up)
-		{
-			//if neither arm movement button is pressed, turn off the motor
-			//also turn off the motor if we're not seeking a target postion
-			LiftArmMotor.set(0);
-		}
-
-		}
-	}
-
-	 */ // END OLD COMMENT BLOCK
-
-
-	// BEGIN REPLACEMENT CODE 
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
