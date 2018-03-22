@@ -4,13 +4,14 @@ import org.usfirst.frc.team280.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public class Wrist extends PIDSubsystem {
 
-	WPI_TalonSRX Motor = new WPI_TalonSRX(RobotMap.WristTalon);
-	Encoder encoder = new Encoder(RobotMap.wrist_encoder_port_a, RobotMap.wrist_encoder_port_b);
+	static WPI_TalonSRX Motor = new WPI_TalonSRX(RobotMap.WristTalon);
+	public static Encoder encoder = new Encoder(RobotMap.wrist_encoder_port_a, RobotMap.wrist_encoder_port_b);
 	
 	public Wrist() {
 		super(0.01, 0, 0);
@@ -18,6 +19,7 @@ public class Wrist extends PIDSubsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
+		encRotate(1);
 	}
 
 	@Override
@@ -38,18 +40,26 @@ public class Wrist extends PIDSubsystem {
 		return encoder.get();
 	}
 	
-	public void encRotate(double counts) {
+	public static void encRotate(double counts) {
 		// Run motor up to number of encoder counts supplied
-		if (Math.signum(counts) == 1.0) { // Check if counts is positive
+		
+		if (counts > 1) { // Check if counts is positive
 			if (encoder.get() < counts) {
-				Motor.set(0.85);
+				Motor.set(0.85); // Set to 0.85 for actual
+				DriverStation.reportError("counts is positive.", false);
 			}
-		} else if (Math.signum(counts) == -1.0) { // Check if counts is negative
+		} else if (counts < 0) { // Check if counts is negative
 			if (encoder.get() < counts) {
-				Motor.set(-0.85);
+				Motor.set(-0.85); // Set to -0.85 for actual
+				DriverStation.reportError("counts is negative.", false);
 			}
 		} else {
 			Motor.set(0);
+			DriverStation.reportError("Wrist motor set to zero.", false);
 		}
+	}
+	
+	public static void encZero() {
+		encoder.reset();
 	}
 }

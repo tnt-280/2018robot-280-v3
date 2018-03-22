@@ -16,11 +16,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import com.kauailabs.navx.frc.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,6 +36,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	public static final Drivetrain Drivetrain = new Drivetrain();
 	public static OI m_oi;
+
+	AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -143,6 +148,8 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 			} else if (gameData.charAt(1) == 'R') {
 				auto = "Right";
 				//Put right auto code here
+			} else if (gameData.charAt(0) == 'E' && gameData.charAt(1) == 'N' && gameData.charAt(2) == 'C') {
+				auto = "Test Encoder";
 			} else {
 				DriverStation.reportError("Unexpected GameData recieved. Defaulting to cross auto line...", false);
 				auto = "None";
@@ -155,7 +162,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); // Was put in by example, dont change
 
-		if (auto == "None") {
+		if (auto == "NULLNULLNULL") { // TODO set to 'None' for actual
 
 			if (timer.get() <1.5) {
 				LMMotor.set(-0.5);
@@ -170,7 +177,8 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 				LSMotor.set(0);
 				RSMotor.set(0);
 			}
-		} else {
+		} else if (auto == "Test Encoder") {
+		} else { 
 			DriverStation.reportError("Autonomous selection error. Other behaviors not currently implemented.", false); // TODO implement other autonomous behaviors
 		}
 	}
@@ -339,6 +347,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		update_arm_position(); // Update the arm position based on its state variables and joystick buttons
 
 
+		DriverStation.reportError("Encoder value: " + Wrist.encoder.get(), false);
 
 	}
 
@@ -358,7 +367,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	}
 
 	public static boolean armSwitchMid() {
-		DriverStation.reportError("Arm reed switch mid:" + !dInput0.get(), false);
+		//DriverStation.reportError("Arm reed switch mid:" + !dInput0.get(), false);
 		return !dInput0.get();
 	}
 

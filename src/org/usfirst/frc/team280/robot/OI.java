@@ -8,6 +8,7 @@
 package org.usfirst.frc.team280.robot;
 
 import org.usfirst.frc.team280.robot.commands.*;
+import org.usfirst.frc.team280.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -46,7 +47,7 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	
+	public Joystick winchJoystick = new Joystick(3);
 	public Joystick armJoystick = new Joystick(2);
 	public Joystick rightStick = new Joystick(1);
 	public Joystick leftStick = new Joystick(0);
@@ -60,6 +61,9 @@ public class OI {
 	public Button GripIn = new JoystickButton(armJoystick,5);
 	public Button GripOut = new JoystickButton(armJoystick,6);
 	
+	public Button encoderZero = new JoystickButton(winchJoystick,1); // TODO remove when encoder tested
+	public Button encoderRotate = new JoystickButton(winchJoystick,2); //TODO remove when encoder tested
+	
 	public OI() {
 		WristUp.whileHeld(new RotateWristUp());
 		WristDown.whileHeld(new RotateWristDown());
@@ -68,6 +72,9 @@ public class OI {
 		GripClose.whileHeld(new GripClose());
 		GripIn.whileHeld(new GripWheelIn());
 		GripOut.whileHeld(new GripWheelOut());
+		
+		encoderZero.whenPressed(new ZeroWristEncoder());
+		encoderRotate.whenPressed(new RotateWristEncoder());
 	}
 	
 	
