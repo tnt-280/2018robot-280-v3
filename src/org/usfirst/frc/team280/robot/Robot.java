@@ -38,11 +38,11 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	public static final Drivetrain Drivetrain = new Drivetrain();
 	public static OI m_oi;
 
-	AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
+	//AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
 
 	Command m_autonomousCommand;
 	Command autoCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	//variables for lift arm control
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
@@ -54,7 +54,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	boolean RS_button_5, RS_button_3, arm_seek_down, arm_seek_up, arm_seek_mid, WristUp, WristDown;
 	static DigitalInput dInput2, dInput1, dInput0;
 	Timer timer;
-	String auto = "None";
+	//String auto = "None";
 
 	WPI_TalonSRX LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
 	WPI_TalonSRX RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
@@ -82,15 +82,16 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 		//bring in user input
 		m_oi = new OI();
-
+		
+		//give the driver station the options for starting position
+		chooser.addObject("Left", null);
+		chooser.addObject("Mid", null);
+		chooser.addObject("Right", null);
+		
 		//collect the operating mode from the Driver station
-		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Auto mode", chooser);
+		
 	}
-
-
-	/**
-	 * put code here for testing
-	 */
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -124,7 +125,9 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	public void autonomousInit() {
 		// m_autonomousCommand = m_chooser.getSelected();
 		
-		autoCommand = new RotateWristEncoder();
+		// autoCommand = new RotateWristEncoder();
+		
+		autoCommand = null;
 
 		/* // Prototype Autonomous Selection Code
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -133,10 +136,12 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 
-		// schedule the autonomous command (example)
+		/* 
+		//schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+		*/
 
 		timer = new Timer();
 		timer.start();
@@ -144,48 +149,43 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
-		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR
-		if(gameData.length() > 0) {
-			if(gameData.charAt(1) == 'L') {
-				auto = "Left";
-				//Put left auto code here
-			} else if (gameData.charAt(1) == 'R') {
-				auto = "Right";
-				//Put right auto code here
-			} else if (gameData.charAt(0) == 'E' && gameData.charAt(1) == 'N' && gameData.charAt(2) == 'C') {
-				auto = "Test Encoder";
-			} else {
-				DriverStation.reportError("Unexpected GameData recieved. Defaulting to cross auto line...", false);
-				auto = "None";
-			}
+		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
+		if (gameData.equals("LRL")) {
+			DriverStation.reportError("GameData recieved! Data is LRL. Selecting option 1.", false);
+		} else if (gameData.equals("RLR")) {
+			DriverStation.reportError("GameData recieved! Data is RLR. Selecting option 2.", false);
+		} else if (gameData.equals("LLL")) {
+			DriverStation.reportError("GameData recieved! Data is LLL. Selecting option 3.", false);
+		} else if (gameData.equals("RRR")) {
+			DriverStation.reportError("GameData recieved! Data is RRR. Selecting option 4.", false);
+		} else { 
+			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
 		}
 
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run(); // Was put in by example, dont change
 
-		if (auto == "NULLNULLNULL") { // TODO set to 'None' for actual
-
-			if (timer.get() <1.5) {
-				LMMotor.set(-0.5);
-				RMMotor.set(0.5);
-				LSMotor.set(-0.5);
-				RSMotor.set(0.5);
-			}
-
-			if (timer.get() >=1.5) {
-				LMMotor.set(0);
-				RMMotor.set(0);
-				LSMotor.set(0);
-				RSMotor.set(0);
-			}
-		} else if (auto == "Test Encoder") {
-			
-		} else { 
-			DriverStation.reportError("Autonomous selection error. Other behaviors not currently implemented.", false); // TODO implement other autonomous behaviors
+		
+		Scheduler.getInstance().run(); // Runs autonomous command.
+		
+		/*
+		if (timer.get() <1.5) {
+			LMMotor.set(-0.5);
+			RMMotor.set(0.5);
+			LSMotor.set(-0.5);
+			RSMotor.set(0.5);
 		}
+
+		if (timer.get() >=1.5) {
+			LMMotor.set(0);
+			RMMotor.set(0);
+			LSMotor.set(0);
+			RSMotor.set(0);
+		}
+		
+		*/
 	}
 
 	@Override

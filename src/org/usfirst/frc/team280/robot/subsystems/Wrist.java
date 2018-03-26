@@ -19,7 +19,6 @@ public class Wrist extends PIDSubsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		encRotate(0);
 	}
 
 	@Override
@@ -38,29 +37,6 @@ public class Wrist extends PIDSubsystem {
 	
 	public double getEncoderValue() {
 		return encoder.get();
-	}
-	
-	public static void encRotate(double counts) {
-		// Run motor up to number of encoder counts supplied
-		
-		/* //Temporarily moved to the command itself
-		 
-		if (counts >= 0) { // Check if counts is positive
-			if (encoder.get() < counts) {
-				Motor.set(0.85); // Set to 0.85 for actual
-				DriverStation.reportError("counts is positive.", false);
-			}
-		} else if (counts < 0) { // Check if counts is negative
-			if (encoder.get() > counts) {
-				Motor.set(-0.85); // Set to -0.85 for actual
-				DriverStation.reportError("counts is negative.", false);
-			}
-		} else {
-			Motor.set(0);
-			DriverStation.reportError("Wrist motor set to zero.", false);
-		}
-		
-		*/
 	}
 	
 	public static void encZero() {

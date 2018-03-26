@@ -7,12 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.subsystems.Wrist;
 
-/**
- *
- */
-public class RotateWristEncoder extends Command {
 
-	// public static Encoder encoder = new Encoder(RobotMap.wrist_encoder_port_a, RobotMap.wrist_encoder_port_b);
+
+// WARNING: THIS COMMAND IS NOT COMPLETE. RUN AT OWN RISK. CAN AND WILL OVER-ROTATE WRIST.
+
+public class RotateWristEncoder extends Command {
 
 	public static double counts = -10;
 	boolean finished = false;
