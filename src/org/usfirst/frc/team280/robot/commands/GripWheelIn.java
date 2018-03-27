@@ -7,7 +7,7 @@ public class GripWheelIn extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.gripWheel.intake(1);
+		Robot.gripWheel.intake(-1);
 	}
 	
 	

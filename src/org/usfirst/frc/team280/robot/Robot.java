@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.commands.RotateWristEncoder;
+import org.usfirst.frc.team280.robot.commands.autonomous.*;
 import org.usfirst.frc.team280.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -42,7 +43,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 	Command m_autonomousCommand;
 	Command autoCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	public static SendableChooser<Command> chooser = new SendableChooser<>();
 
 	//variables for lift arm control
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
@@ -84,9 +85,12 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		m_oi = new OI();
 		
 		//give the driver station the options for starting position
-		chooser.addObject("Left", null);
-		chooser.addObject("Mid", null);
-		chooser.addObject("Right", null);
+		chooser.addObject("Left Switch", null);
+		chooser.addObject("Mid Switch", null);
+		chooser.addObject("Right Switch", null);
+		chooser.addObject("Left Scale", null);
+		chooser.addObject("Mid Scale", null);
+		chooser.addObject("Right Scale", null);
 		
 		//collect the operating mode from the Driver station
 		SmartDashboard.putData("Auto mode", chooser);
@@ -127,7 +131,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		
 		// autoCommand = new RotateWristEncoder();
 		
-		autoCommand = null;
+		autoCommand = new Straight();
 
 		/* // Prototype Autonomous Selection Code
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -146,22 +150,6 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		timer = new Timer();
 		timer.start();
 
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
-		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
-		if (gameData.equals("LRL")) {
-			DriverStation.reportError("GameData recieved! Data is LRL. Selecting option 1.", false);
-		} else if (gameData.equals("RLR")) {
-			DriverStation.reportError("GameData recieved! Data is RLR. Selecting option 2.", false);
-		} else if (gameData.equals("LLL")) {
-			DriverStation.reportError("GameData recieved! Data is LLL. Selecting option 3.", false);
-		} else if (gameData.equals("RRR")) {
-			DriverStation.reportError("GameData recieved! Data is RRR. Selecting option 4.", false);
-		} else { 
-			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
-		}
-
 	}
 
 	@Override
@@ -170,22 +158,22 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		
 		Scheduler.getInstance().run(); // Runs autonomous command.
 		
-		/*
-		if (timer.get() <1.5) {
+		if (timer.get() <2.0) {
 			LMMotor.set(-0.5);
 			RMMotor.set(0.5);
 			LSMotor.set(-0.5);
 			RSMotor.set(0.5);
 		}
 
-		if (timer.get() >=1.5) {
+		if (timer.get() >=2.0) {
 			LMMotor.set(0);
 			RMMotor.set(0);
 			LSMotor.set(0);
 			RSMotor.set(0);
+		} else {
+			
 		}
 		
-		*/
 	}
 
 	@Override
@@ -194,8 +182,8 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autoCommand != null) {
+			autoCommand.cancel();
 		}
 
 
@@ -206,8 +194,8 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		arm_seek_up = false;
 		arm_seek_mid = false;
 		
-		Wrist.encZero();
-		Wrist.Motor.set(0);
+		Robot.wrist.encZero();
+		Robot.wrist.Motor.set(0);
 
 	}
 
@@ -218,7 +206,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		update_arm_position(); // Update the arm position based on its state variables and joystick buttons
 
 
-		DriverStation.reportError("Encoder value: " + Wrist.encoder.get(), false);
+		//DriverStation.reportError("Encoder value: " + Wrist.encoder.get(), false);
 
 	}
 
@@ -296,7 +284,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		boolean RS_button_arm_up = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_up);
 		boolean RS_button_arm_mid = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_mid);
 
-		//then act based on the button state to turn on the motor....0
+		//then act based on the button state to turn on the motor
 
 
 

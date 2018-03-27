@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LSwitchLStart extends Command {
+public class Hold extends Command {
 
-    public LSwitchLStart() {
+    public Hold() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

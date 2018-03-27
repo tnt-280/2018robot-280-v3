@@ -74,10 +74,6 @@ public class OI {
 		GripOut.whileHeld(new GripWheelOut());
 		
 		encoderZero.whenPressed(new ZeroWristEncoder());
-		encoderRotate.whenPressed(new RotateWristEncoder());
+		encoderRotate.whenPressed(new RotateWristEncoder(-30));
 	}
-	
-	
-
-	
 }

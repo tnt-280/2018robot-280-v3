@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Drivetrain extends Subsystem {
 	
 	//create variables which contain the Talon SRX CAN controller references
-	WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor, LS1Motor, RS1Motor;
+	public WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor, LS1Motor, RS1Motor;
 	//and a drivetrain reference
 	DifferentialDrive drive, driveSlave, driveSlave1;
 	
@@ -78,9 +78,16 @@ public class Drivetrain extends Subsystem {
 	
 	public void tankDrive(double x, double y) {
 		//command the motor based on the adjusted joystick values
+
+		drive.tankDrive(x, y);
+		driveSlave.tankDrive(x, y);
+		driveSlave1.tankDrive(x, y);
+		
+		/* NORMAL DRIVE // TODO remove comment
 		drive.tankDrive(x,y);
 		driveSlave.tankDrive(x, y);
 		driveSlave1.tankDrive(x, y);
+		*/
 	}
 	
     public void initDefaultCommand() {

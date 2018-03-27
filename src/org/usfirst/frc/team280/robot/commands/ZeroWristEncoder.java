@@ -1,5 +1,6 @@
 package org.usfirst.frc.team280.robot.commands;
 
+import org.usfirst.frc.team280.robot.Robot;
 import org.usfirst.frc.team280.robot.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,9 +20,8 @@ public class ZeroWristEncoder extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Wrist.encZero();
+    	Robot.wrist.encZero();
     	DriverStation.reportError("Encoder zeroed.", false);
-    	Wrist.Motor.set(0);
     	finished = true;
     }
 
@@ -36,8 +36,6 @@ public class ZeroWristEncoder extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Wrist.encZero();
-    	Wrist.Motor.set(0);
     }
 
     // Called when another command which requires one or more of the same
