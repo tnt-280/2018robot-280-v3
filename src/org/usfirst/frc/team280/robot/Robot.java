@@ -88,7 +88,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		chooser.addObject("Left Switch", null);
 		chooser.addObject("Mid Switch", null);
 		chooser.addObject("Right Switch", null);
-		chooser.addObject("Left Scale", null);
+		chooser.addObject("Left Scale", new LeftStartScale()); //Once you have all of the autonomous commands created, replace null with the command pertaining to that chooser option
 		chooser.addObject("Mid Scale", null);
 		chooser.addObject("Right Scale", null);
 		
@@ -131,8 +131,25 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		
 		// autoCommand = new RotateWristEncoder();
 		
-		autoCommand = new Straight();
-
+		String gameData;
+    	Command option;
+    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	option = Robot.chooser.getSelected();
+		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
+		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
+		if (gameData.equals("LRL")) {
+			DriverStation.reportError("GameData recieved! Data is LRL. Selecting option 1.", false);
+		} else if (gameData.equals("RLR")) {
+			DriverStation.reportError("GameData recieved! Data is RLR. Selecting option 2.", false);
+		} else if (gameData.equals("LLL")) {
+			DriverStation.reportError("GameData recieved! Data is LLL. Selecting option 3.", false);
+		} else if (gameData.equals("RRR")) {
+			DriverStation.reportError("GameData recieved! Data is RRR. Selecting option 4.", false);
+		} else { 
+			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
+			Command autoCommand = new Straight();
+		}
+			
 		/* // Prototype Autonomous Selection Code
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

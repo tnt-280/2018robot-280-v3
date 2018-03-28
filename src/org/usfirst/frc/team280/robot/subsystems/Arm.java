@@ -24,4 +24,9 @@ public class Arm extends Subsystem {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public Object getPIDController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
