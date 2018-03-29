@@ -44,7 +44,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	Command m_autonomousCommand;
 	//Command autoCommand;
 	Command autonomousCommand;
-	public SendableChooser<Command> chooser = new SendableChooser<>();
+	public static SendableChooser<Command> chooser = new SendableChooser<>();
 
 	//variables for lift arm control
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
