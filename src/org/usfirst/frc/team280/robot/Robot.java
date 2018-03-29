@@ -92,6 +92,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		chooser.addObject("Left Scale", new LeftStartScale()); //Once you have all of the autonomous commands created, replace null with the command pertaining to that chooser option
 		chooser.addObject("Mid Scale", null);
 		chooser.addObject("Right Scale", null);
+		chooser.addDefault("Go Straight", new Straight());
 		
 		//collect the operating mode from the Driver station
 		SmartDashboard.putData("Auto mode", chooser);

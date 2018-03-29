@@ -27,10 +27,8 @@ public class LeftStartScale extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		String gameData;
-    	Command option;
+	String gameData;
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	option = Robot.chooser.getSelected();
 		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
 		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
 		if (gameData.equals("LRL") || gameData.equals("RRR")) {
