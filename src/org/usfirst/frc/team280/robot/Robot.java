@@ -43,7 +43,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 	Command m_autonomousCommand;
 	Command autoCommand;
-	public static SendableChooser<Command> chooser = new SendableChooser<>();
+	public static SendableChooser <Command> chooser = new SendableChooser<>();
 
 	//variables for lift arm control
 	WPI_TalonSRX LiftArmMotor = new WPI_TalonSRX(RobotMap.ArmTalon);
@@ -52,9 +52,9 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	public static Grip grip = new Grip();
 	public static Arm arm = new Arm();
 	public static GripWheel gripWheel = new GripWheel();
+	public static Climber climber = new Climber();
 	boolean RS_button_5, RS_button_3, arm_seek_down, arm_seek_up, arm_seek_mid, WristUp, WristDown;
 	static DigitalInput dInput2, dInput1, dInput0;
-	public static Climber climber = new Climber();
 	Timer timer;
 	//String auto = "None";
 
@@ -62,7 +62,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	WPI_TalonSRX RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
 	WPI_TalonSRX LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
 	WPI_TalonSRX RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
-	
+
 	//Climber Talons and Motors
 	WPI_TalonSRX ClimberUpMotor = new WPI_TalonSRX(RobotMap.ClimberTalon1); 
 	WPI_TalonSRX ClimberDownMotor = new WPI_TalonSRX(RobotMap.ClimberTalon2); 
@@ -88,18 +88,21 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 		//bring in user input
 		m_oi = new OI();
-		
+
 		//give the driver station the options for starting position
-		chooser.addObject("Left Switch", null);
+		chooser.addObject("Left Switch", new LeftStartSwitch());
 		chooser.addObject("Mid Switch", null);
 		chooser.addObject("Right Switch", null);
 		chooser.addObject("Left Scale", new LeftStartScale()); //Once you have all of the autonomous commands created, replace null with the command pertaining to that chooser option
 		chooser.addObject("Mid Scale", null);
 		chooser.addObject("Right Scale", null);
 		
+		//Set default option, just cross the line (or run into the switch if you're at mid)
+		chooser.addDefault("Cross Line", new Straight());
+
 		//collect the operating mode from the Driver station
 		SmartDashboard.putData("Auto mode", chooser);
-		
+
 	}
 
 	/**
@@ -133,13 +136,14 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	@Override
 	public void autonomousInit() {
 		// m_autonomousCommand = m_chooser.getSelected();
-		
-		// autoCommand = new RotateWristEncoder();
-		
+
+		autoCommand = (Command) chooser.getSelected();
+
+		/*
 		String gameData;
-    	Command option;
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	option = Robot.chooser.getSelected();
+		Command option;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		option = Robot.chooser.getSelected();
 		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
 		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
 		if (gameData.equals("LRL")) {
@@ -153,10 +157,11 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		} else { 
 			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
 			Command autoCommand = new Straight();
-			
-			
+
+
 		}
-			
+		*/
+
 		/* // Prototype Autonomous Selection Code
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -169,19 +174,21 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
-		*/
+		 */
 
 		timer = new Timer();
 		timer.start();
+		
+		if (autoCommand != null) autoCommand.start(); 
 
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 
-		
+
 		Scheduler.getInstance().run(); // Runs autonomous command.
-		
+		/*
 		if (timer.get() <2.0) {
 			LMMotor.set(-0.5);
 			RMMotor.set(0.5);
@@ -195,9 +202,10 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 			LSMotor.set(0);
 			RSMotor.set(0);
 		} else {
-			
+
 		}
-		
+		 */
+
 	}
 
 	@Override
@@ -217,7 +225,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		arm_seek_down = false;
 		arm_seek_up = false;
 		arm_seek_mid = false;
-		
+
 		Robot.wrist.encZero();
 		Robot.wrist.Motor.set(0);
 
@@ -228,8 +236,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		//put code here that will run regularly during teleop mode
 
 		update_arm_position(); // Update the arm position based on its state variables and joystick buttons
-
-
+		
 		//DriverStation.reportError("Encoder value: " + Wrist.encoder.get(), false);
 
 	}

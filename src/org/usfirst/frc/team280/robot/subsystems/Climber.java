@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Climber extends Command {
 
-	WPI_TalonSRX CLimberUpMotor = new WPI_TalonSRX(RobotMap.ClimberTalon1);
+	public WPI_TalonSRX ClimberUpMotor = new WPI_TalonSRX(RobotMap.ClimberTalon1);
 	
-	WPI_TalonSRX ClimberDownMotor = new WPI_TalonSRX(RobotMap.ClimberTalon2);
+	public WPI_TalonSRX ClimberDownMotor = new WPI_TalonSRX(RobotMap.ClimberTalon2);
 
 	
 	public Climber() {
@@ -22,7 +22,14 @@ public class Climber extends Command {
 	}
 	
 	public void move(double speed) {
-		//Motor.set(speed);
+		if (speed > 0) {
+			ClimberUpMotor.set(speed);
+		} else if (speed < 0) {
+			ClimberDownMotor.set(speed);
+		} else {
+			ClimberUpMotor.set(0);
+			ClimberDownMotor.set(0);
+		}
 	}
 
 	protected void initDefaultCommand() {
@@ -39,5 +46,10 @@ public class Climber extends Command {
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	protected void end() {
+		ClimberUpMotor.set(0);
+		ClimberDownMotor.set(0);
 	}
 }

@@ -46,15 +46,19 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
+
 	public Joystick winchJoystick = new Joystick(3);
 	public Joystick armJoystick = new Joystick(2);
 	public Joystick rightStick = new Joystick(1);
 	public Joystick leftStick = new Joystick(0);
-	
+
+	public Button ArmHigh = new JoystickButton(armJoystick,1);
+	public Button ArmMid = new JoystickButton(armJoystick,2);
+	public Button ArmLow = new JoystickButton(armJoystick,3);
+
 	public Button WristUp =  new JoystickButton(armJoystick,8);
 	public Button WristDown = new JoystickButton(armJoystick,9);
-	
+
 	//switched buttons 7 & 4
 	public Button GripOpen = new JoystickButton(armJoystick,7);
 	public Button GripClose = new JoystickButton(armJoystick,4);
@@ -64,18 +68,22 @@ public class OI {
 	//climber buttons 
 	public Button ClimberDown = new JoystickButton(winchJoystick,1);
 	public Button ClimberUp = new JoystickButton(winchJoystick,2);
-	
-	
+
+
 	public OI() {
 		WristUp.whileHeld(new RotateWristUp());
 		WristDown.whileHeld(new RotateWristDown());
-		
+
 		GripOpen.whileHeld(new GripOpen());
 		GripClose.whileHeld(new GripClose());
 		GripIn.whileHeld(new GripWheelIn());
 		GripOut.whileHeld(new GripWheelOut());
-		
-		encoderZero.whenPressed(new ZeroWristEncoder());
-		encoderRotate.whenPressed(new RotateWristEncoder(-30));
+
+		ClimberUp.whileHeld(new ClimberUp());
+		ClimberDown.whileHeld(new ClimberDown());
+
+		ArmHigh.whenPressed(null);
+		ArmMid.whenPressed(null); 
+		ArmLow.whenPressed(null);
 	}
 }
