@@ -42,8 +42,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	//AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
 
 	Command m_autonomousCommand;
-	//Command autoCommand;
-	Command autonomousCommand;
+	Command autoCommand;
 	public static SendableChooser<Command> chooser = new SendableChooser<>();
 
 	//variables for lift arm control
@@ -55,6 +54,7 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	public static GripWheel gripWheel = new GripWheel();
 	boolean RS_button_5, RS_button_3, arm_seek_down, arm_seek_up, arm_seek_mid, WristUp, WristDown;
 	static DigitalInput dInput2, dInput1, dInput0;
+	public static Climber climber = new Climber();
 	Timer timer;
 	//String auto = "None";
 
@@ -62,6 +62,10 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 	WPI_TalonSRX RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
 	WPI_TalonSRX LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
 	WPI_TalonSRX RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
+	
+	//Climber Talons and Motors
+	WPI_TalonSRX ClimberUpMotor = new WPI_TalonSRX(RobotMap.ClimberTalon1); 
+	WPI_TalonSRX ClimberDownMotor = new WPI_TalonSRX(RobotMap.ClimberTalon2); 
 
 
 	/**
@@ -86,13 +90,12 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		m_oi = new OI();
 		
 		//give the driver station the options for starting position
-		chooser.addObject("Left Switch", new LeftStartSwitch());
+		chooser.addObject("Left Switch", null);
 		chooser.addObject("Mid Switch", null);
 		chooser.addObject("Right Switch", null);
 		chooser.addObject("Left Scale", new LeftStartScale()); //Once you have all of the autonomous commands created, replace null with the command pertaining to that chooser option
 		chooser.addObject("Mid Scale", null);
 		chooser.addObject("Right Scale", null);
-		chooser.addDefault("Go Straight", new Straight());
 		
 		//collect the operating mode from the Driver station
 		SmartDashboard.putData("Auto mode", chooser);
@@ -133,12 +136,10 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		
 		// autoCommand = new RotateWristEncoder();
 		
-	//String gameData;
-	//gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	autonomousCommand = (Command) chooser.getSelected();
-    	
-    		/* 
-    		
+		String gameData;
+    	Command option;
+    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	option = Robot.chooser.getSelected();
 		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
 		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
 		if (gameData.equals("LRL")) {
@@ -152,9 +153,9 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		} else { 
 			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
 			Command autoCommand = new Straight();
+			
+			
 		}
-		
-		*/
 			
 		/* // Prototype Autonomous Selection Code
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -172,7 +173,6 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 		timer = new Timer();
 		timer.start();
-		if (autonomousCommand != null) autonomousCommand.start();
 
 	}
 
@@ -206,8 +206,8 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
+		if (autoCommand != null) {
+			autoCommand.cancel();
 		}
 
 
@@ -234,6 +234,11 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 
 	}
 
+	/**
+	 * Returns the status of DIO pin 24 
+	 *
+	 * @return true if this is the practice robot
+	 */
 	public static boolean armSwitchHi() {
 		//DriverStation.reportError("Arm reed switch high:" + !dInput2.get(), false);
 		return !dInput1.get();
@@ -266,6 +271,37 @@ public class Robot extends TimedRobot { // THIS IS VERSION 3 OF THE WORKSPACE.
 		boolean arm_high_switch_set = armSwitchHi();
 		boolean arm_mid_switch_set = armSwitchMid();
 		boolean arm_low_switch_set = armSwitchLow();
+
+		/*  BEGIN UNUSED MANUAL MOVE CODE
+
+
+
+
+
+		//update the pressed/un-pressed state of the arm movement buttons
+		if(!RS_button_5 && Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_move_up))
+		{
+			//if the state is released and the button has been pressed, change the state to pressed
+			RS_button_5 = true;
+		}
+		else if(RS_button_5 && Robot.m_oi.armJoystick.getRawButtonReleased(RobotMap.button_move_up))
+		{
+			//if the state is pressed, and the button has been released, change the state to released
+			RS_button_5 = false;
+		}
+
+		if(!RS_button_3 && Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_move_down))
+		{
+			//if the state is released and the button has been pressed, change the state to pressed
+			RS_button_3 = true;
+		}
+		else if(RS_button_3 && Robot.m_oi.armJoystick.getRawButtonReleased(RobotMap.button_move_down))
+		{
+			//if the state is pressed, and the button has been released, change the state to released
+			RS_button_3 = false;
+		}
+
+		 */ // END UNUSED MANUAL MOVE CODE
 
 		//also use three buttons to seek the position of the arm based on the reed switches
 		boolean RS_button_arm_down = Robot.m_oi.armJoystick.getRawButtonPressed(RobotMap.button_seek_down);

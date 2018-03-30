@@ -1,5 +1,9 @@
 package org.usfirst.frc.team280.robot.subsystems;
 
+import org.usfirst.frc.team280.robot.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -7,30 +11,33 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Climber extends Command {
 
-    public Climber() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+	WPI_TalonSRX CLimberUpMotor = new WPI_TalonSRX(RobotMap.ClimberTalon1);
+	
+	WPI_TalonSRX ClimberDownMotor = new WPI_TalonSRX(RobotMap.ClimberTalon2);
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+	
+	public Climber() {
+		// Counter counter = new Counter(0);
+		// System.out.println(counter.);
+	}
+	
+	public void move(double speed) {
+		//Motor.set(speed);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	public Object getPIDController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

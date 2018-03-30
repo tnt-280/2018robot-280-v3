@@ -1,11 +1,13 @@
 package org.usfirst.frc.team280.robot.commands.autonomous;
 
 import org.usfirst.frc.team280.robot.Robot;
+
 import org.usfirst.frc.team280.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -19,6 +21,7 @@ public class LeftStartScale extends Command {
 	WPI_TalonSRX RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
 	WPI_TalonSRX LS1Motor = new WPI_TalonSRX(RobotMap.LMTalon);
 	WPI_TalonSRX RS1Motor = new WPI_TalonSRX(RobotMap.RMTalon);
+	private WPI_TalonSRX timer;
 	
     public LeftStartScale() {
         // Use requires() here to declare subsystem dependencies
@@ -26,17 +29,69 @@ public class LeftStartScale extends Command {
     }
 
     // Called just before this Command runs the first time
+   
+	
     protected void initialize() {
-	String gameData;
+    	
+ 
+		String gameData;
+    	Command option;
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	option = Robot.chooser.getSelected();
 		// Character 0: Your Switch | Char. 1: Scale | Char. 2: Opposing Switch
 		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
 		if (gameData.equals("LRL") || gameData.equals("RRR")) {
 			DriverStation.reportError("Left Start Scale: Scale is on right.", false);
-			// put path 1 here
-		} else if (gameData.equals("RLR") || gameData.equals("LLL")) {
+			if (timer.get() > 2.0) {
+			 	LMMotor.set(0.5);
+			  	RMMotor.set(0.5);
+			 	LSMotor.set(0.5);
+			  	RSMotor.set(0.5);
+			  	LS1Motor.set(0.5);
+			  	RS1Motor.set(0.5);
+			   } else { 
+				   
+				   if (timer.get() > 2.0) {
+					 	LMMotor.set(0.5);
+					  	RMMotor.set(0.5);
+					 	LSMotor.set(0.5);
+					  	RSMotor.set(0.5);
+					  	LS1Motor.set(0.5);
+					  	RS1Motor.set(0.5);
+					   }  
+						   
+			    else if (gameData.equals("RLR") || gameData.equals("LLL")) {
 			DriverStation.reportError("Left Start Scale: Scale is on right.", false);
-			// put path 2 here
+			
+			
+			if (timer.get() > 2.0) {
+				 	LMMotor.set(0.5);
+				  	RMMotor.set(0.5);
+				 	LSMotor.set(0.5);
+				  	RSMotor.set(0.5);
+				  	LS1Motor.set(0.5);
+				  	RS1Motor.set(0.5);
+				   } else { 
+					   
+					   if (timer.get() > 2.0) {
+						 	LMMotor.set(0.5);
+						  	RMMotor.set(0.5);
+						 	LSMotor.set(0.5);
+						  	RSMotor.set(0.5);
+						  	LS1Motor.set(0.5);
+						  	RS1Motor.set(0.5);
+						   } else { 
+							   
+
+						   }
+							   
+				   }
+				   
+			
+		}
+			
+			
+			
 			
 			//EXAMPLE
 			/*
@@ -55,7 +110,7 @@ public class LeftStartScale extends Command {
 			 */
 			
 			
-		} else { 
+		 else { 
 			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
 		}
     }

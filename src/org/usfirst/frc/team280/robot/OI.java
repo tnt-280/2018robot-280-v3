@@ -60,9 +60,11 @@ public class OI {
 	public Button GripClose = new JoystickButton(armJoystick,4);
 	public Button GripIn = new JoystickButton(armJoystick,5);
 	public Button GripOut = new JoystickButton(armJoystick,6);
+
+	//climber buttons 
+	public Button ClimberDown = new JoystickButton(winchJoystick,1);
+	public Button ClimberUp = new JoystickButton(winchJoystick,2);
 	
-	public Button encoderZero = new JoystickButton(winchJoystick,1); // TODO remove when encoder tested
-	public Button encoderRotate = new JoystickButton(winchJoystick,2); //TODO remove when encoder tested
 	
 	public OI() {
 		WristUp.whileHeld(new RotateWristUp());

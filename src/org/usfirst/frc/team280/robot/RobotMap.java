@@ -60,5 +60,11 @@ public class RobotMap {
 	
 	public static final int wrist_encoder_port_a = 6;
 	public static final int wrist_encoder_port_b = 7;
+	//public static final int ClimberTalon = 0;
+	
+	//climber Talons
+	public static final int ClimberTalon1 = 2;
+	public static final int ClimberTalon2 = 10;
+	
 	
 }

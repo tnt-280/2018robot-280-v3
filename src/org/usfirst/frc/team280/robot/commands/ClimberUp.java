@@ -26,4 +26,3 @@ public class ClimberUp extends Command {
 		Robot.climber.move(0);
 	}
 }
-
