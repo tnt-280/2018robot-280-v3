@@ -66,8 +66,8 @@ public class OI {
 	public Button GripOut = new JoystickButton(armJoystick,6);
 
 	//climber buttons 
-	public Button ClimberDown = new JoystickButton(winchJoystick,1);
-	public Button ClimberUp = new JoystickButton(winchJoystick,2);
+	public Button ClimberDown = new JoystickButton(armJoystick,11); //Set to winchJoystick 1 and 2 when necessary
+	public Button ClimberUp = new JoystickButton(armJoystick,10);
 
 
 	public OI() {
@@ -77,13 +77,13 @@ public class OI {
 		GripOpen.whileHeld(new GripOpen());
 		GripClose.whileHeld(new GripClose());
 		GripIn.whileHeld(new GripWheelIn());
-		GripOut.whileHeld(new GripWheelOut());
+		GripOut.whenPressed(new GripWheelOut());
 
 		ClimberUp.whileHeld(new ClimberUp());
 		ClimberDown.whileHeld(new ClimberDown());
 
-		ArmHigh.whenPressed(null);
-		ArmMid.whenPressed(null); 
-		ArmLow.whenPressed(null);
+		//ArmHigh.whenPressed(null);
+		//ArmMid.whenPressed(null); 
+		//ArmLow.whenPressed(null);
 	}
 }

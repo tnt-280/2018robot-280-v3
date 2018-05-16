@@ -27,7 +27,7 @@ public class GripOpen extends Command {
 		if (!limitOpen.get())
 		{
 			Robot.grip.move(0);
-			DriverStation.reportError("Limit switch hit.", false);
+			//DriverStation.reportError("Limit switch hit.", false);
 		}
 		else 
 		{
