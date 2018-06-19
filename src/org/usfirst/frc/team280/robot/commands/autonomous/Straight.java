@@ -1,6 +1,5 @@
 package org.usfirst.frc.team280.robot.commands.autonomous;
 
-import org.usfirst.frc.team280.robot.Robot;
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.subsystems.Drivetrain;
 
@@ -14,32 +13,58 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  *
  */
 public class Straight extends Command {
-	private Timer timer = new Timer();
-	private double length;
+	public WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor, LS1Motor, RS1Motor;
+	DifferentialDrive drive, driveSlave, driveSlave1;
 	
-    public Straight(int lengthIn) {
-    	length = lengthIn;
+    public Straight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.start();
+
+			LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
+			RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
+			LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
+			RSMotor = new WPI_TalonSRX(RobotMap.RSTalon);
+			LS1Motor = new WPI_TalonSRX(RobotMap.LS1Talon);
+			RS1Motor = new WPI_TalonSRX(RobotMap.RS1Talon);
+
+			drive = new DifferentialDrive(LMMotor, RMMotor);
+			driveSlave = new DifferentialDrive(LSMotor, RSMotor);
+			driveSlave1 = new DifferentialDrive(LS1Motor, RS1Motor);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.Drivetrain.tankDrive(-0.7, -0.7);
+		Timer timer = new Timer();
+		timer.start();
+    	
+		if (timer.get() <1.5) {
+			LMMotor.set(-0.5);
+			RMMotor.set(0.5);
+			LSMotor.set(-0.5);
+			RSMotor.set(0.5);
+		}
+
+		if (timer.get() >=1.5) {
+			LMMotor.set(0);
+			RMMotor.set(0);
+			LSMotor.set(0);
+			RSMotor.set(0);
+			timer.stop();
+		}
+		
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.get() >= length;    }
+        return false;
+    }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.Drivetrain.tankDrive(0, 0);
     }
 
     // Called when another command which requires one or more of the same

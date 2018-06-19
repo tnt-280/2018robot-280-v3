@@ -1,5 +1,7 @@
 package org.usfirst.frc.team280.robot.commands.autonomous;
 
+import org.usfirst.frc.team280.robot.Robot;
+
 import org.usfirst.frc.team280.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -30,7 +32,7 @@ public class LeftStartScale extends Command {
 
 
 	protected void initialize() {
-		/*
+
 
 		String gameData;
 		Command option;
@@ -40,7 +42,7 @@ public class LeftStartScale extends Command {
 		// (Competition) Valid GameData is as follows: LLL, RRR, LRL, RLR	
 		if (gameData.equals("LRL") || gameData.equals("RRR")) {
 			DriverStation.reportError("Left Start Scale: Scale is on right.", false);
-			if (timer.get() > 1.0) {
+			if (timer.get() > 2.0) {
 				LMMotor.set(0.5);
 				RMMotor.set(0.5);
 				LSMotor.set(0.5);
@@ -52,11 +54,10 @@ public class LeftStartScale extends Command {
 				if (timer.get() > 2.0) {
 					LMMotor.set(0.5);
 					RMMotor.set(0.5);
-					LSMotor.set(1);
-					RSMotor.set(1);
+					LSMotor.set(0.5);
+					RSMotor.set(0.5);
 					LS1Motor.set(0.5);
 					RS1Motor.set(0.5);
-					
 				}  
 
 				else if (gameData.equals("RLR") || gameData.equals("LLL")) {
@@ -90,45 +91,47 @@ public class LeftStartScale extends Command {
 				}
 
 
-		 */
 
-		//EXAMPLE
-		/*
-		 * if (timer.whatever > timing 1) {
-		 * 	LMMotor.set(speed);
-		 * 	RMMotor.set(speed);
-		 * 	LSMotor.set(speed);
-		 * 	RSMotor.set(speed);
-		 * 	LS1Motor.set(speed);
-		 * 	RS1Motor.set(speed);
-		 *  }
-		 * else if (timer.whatever > timing 2) {
-		 * 	etc. }
-		 * keep going until you have the full path put down
-		 * for the last one just have the ifnal time with a Motors.set(0);
-		 */
 
-		/*
-		else { 
-			DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
-		} */
+				//EXAMPLE
+				/*
+				 * if (timer.whatever > timing 1) {
+				 * 	LMMotor.set(speed);
+				 * 	RMMotor.set(speed);
+				 * 	LSMotor.set(speed);
+				 * 	RSMotor.set(speed);
+				 * 	LS1Motor.set(speed);
+				 * 	RS1Motor.set(speed);
+				 *  }
+				 * else if (timer.whatever > timing 2) {
+				 * 	etc. }
+				 * keep going until you have the full path put down
+				 * for the last one just have the ifnal time with a Motors.set(0);
+				 */
+
+
+				else { 
+					DriverStation.reportError("Invalid GameData recieved. Data: " + gameData, false);
+				}
+			} 
+		}
 	}
 
-// Called repeatedly when this Command is scheduled to run
-protected void execute() {
-}
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+	}
 
-// Make this return true when this Command no longer needs to run execute()
-protected boolean isFinished() {
-	return false;
-}
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
 
-// Called once after isFinished returns true
-protected void end() {
-}
+	// Called once after isFinished returns true
+	protected void end() {
+	}
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-protected void interrupted() {
-}
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

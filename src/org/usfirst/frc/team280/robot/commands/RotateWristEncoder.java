@@ -60,7 +60,7 @@ public class RotateWristEncoder extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Math.abs(Robot.wrist.getPIDController().getError()) < 1;
+		return true;
 	}
 
 	// Called once after isFinished returns true

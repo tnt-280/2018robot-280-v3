@@ -11,7 +11,7 @@ public class ClimberUp extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.climber.move(1);
+		Robot.climber.move(0.5);
 	}
 	
 	
