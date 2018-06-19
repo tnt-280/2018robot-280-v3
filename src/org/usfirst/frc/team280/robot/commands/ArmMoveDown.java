@@ -7,7 +7,7 @@ public class ArmMoveDown extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.arm.move(-0.5);
+		//Robot.arm.move(-0.5);
 	}
 	
 	
@@ -19,6 +19,6 @@ public class ArmMoveDown extends Command {
 
 	@Override
 	protected void end() {
-		Robot.arm.move(0);
+		//Robot.arm.move(0);
 	}
 }

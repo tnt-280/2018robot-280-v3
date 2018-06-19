@@ -17,7 +17,7 @@ public class Wrist extends PIDSubsystem {
 	
 	public Wrist() {
 		super(-0.1, 0, 0);
-		getPIDController().setOutputRange(-0.85, 0.85);
+		getPIDController().setOutputRange(-0.3, 0.3);
 		getPIDController().setSetpoint(encoder.get());
 		getPIDController().enable();
 	}

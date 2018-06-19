@@ -5,8 +5,10 @@ import java.util.LinkedList;
 import org.usfirst.frc.team280.robot.RobotMap;
 import org.usfirst.frc.team280.robot.commands.DriveTrainCommand;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -17,6 +19,9 @@ public class Drivetrain extends Subsystem {
 	
 	//create variables which contain the Talon SRX CAN controller references
 	public WPI_TalonSRX LMMotor, RMMotor, LSMotor, RSMotor, LS1Motor, RS1Motor;
+	
+	//public SpeedControllerGroup groupLeft, groupRight;
+	
 	//and a drivetrain reference
 	DifferentialDrive drive, driveSlave, driveSlave1;
 	
@@ -58,7 +63,7 @@ public class Drivetrain extends Subsystem {
 
 	public Drivetrain() 
 	{
-
+		
 		LMMotor = new WPI_TalonSRX(RobotMap.LMTalon);
 		RMMotor = new WPI_TalonSRX(RobotMap.RMTalon);		
 		LSMotor = new WPI_TalonSRX(RobotMap.LSTalon);
@@ -66,6 +71,22 @@ public class Drivetrain extends Subsystem {
 		LS1Motor = new WPI_TalonSRX(RobotMap.LS1Talon);
 		RS1Motor = new WPI_TalonSRX(RobotMap.RS1Talon);
 		
+//		groupLeft = new SpeedControllerGroup(
+//				new WPI_TalonSRX(RobotMap.LMTalon),
+//				new WPI_TalonSRX(RobotMap.LSTalon),
+//				new WPI_TalonSRX(RobotMap.LS1Talon));
+//		
+//		groupRight = new SpeedControllerGroup(
+//				new WPI_TalonSRX(RobotMap.RMTalon),
+//				new WPI_TalonSRX(RobotMap.RSTalon),
+//				new WPI_TalonSRX(RobotMap.RS1Talon));
+		
+		LMMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+		
+		RMMotor.follow(LMMotor);
+		RSMotor.follow(LSMotor);
+		RS1Motor.follow(LS1Motor);
 		// Set slave motors to follow master
 		//RSMotor.set(ControlMode.Follower, RobotMap.RMTalon);
 		//LSMotor.set(ControlMode.Follower, RobotMap.LMTalon);
@@ -74,20 +95,22 @@ public class Drivetrain extends Subsystem {
 		driveSlave = new DifferentialDrive(LSMotor, RSMotor);
 		driveSlave1 = new DifferentialDrive(LS1Motor, RS1Motor);
 		
+		// drive = new DifferentialDrive(groupLeft, groupRight);
+		
 	}
 	
 	public void tankDrive(double x, double y) {
 		//command the motor based on the adjusted joystick values
-
+		
+		//System.out.println(LMMotor.getSelectedSensorPosition(0));
+		
 		drive.tankDrive(x, y);
 		driveSlave.tankDrive(x, y);
 		driveSlave1.tankDrive(x, y);
 		
-		/* NORMAL DRIVE // TODO remove comment
-		drive.tankDrive(x,y);
-		driveSlave.tankDrive(x, y);
-		driveSlave1.tankDrive(x, y);
-		*/
+//		LMMotor.set(0.5);
+//		LSMotor.set(0.5);
+//		LS1Motor.set(0.5);
 	}
 	
     public void initDefaultCommand() {

@@ -22,6 +22,7 @@ public class Climber extends Command {
 	}
 	
 	public void move(double speed) {
+		/*
 		if (speed > 0) {
 			ClimberUpMotor.set(speed);
 		} else if (speed < 0) {
@@ -30,6 +31,9 @@ public class Climber extends Command {
 			ClimberUpMotor.set(0);
 			ClimberDownMotor.set(0);
 		}
+		*/
+		ClimberUpMotor.set(speed);
+		ClimberDownMotor.set(speed);
 	}
 
 	protected void initDefaultCommand() {
